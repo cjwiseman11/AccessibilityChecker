@@ -34,12 +34,12 @@ namespace AccessibilityChecker
                 {
                     Fails++;
                     var FormFieldType = "";
-                    try
-                    {
-                        FormFieldType = FormField.Attributes["type"].Value;
-                    } catch(Exception e)
+                    if(FormField.Attributes["type"].Value == null)
                     {
                         FormFieldType = "Error";
+                    } else
+                    {
+                        FormFieldType = FormField.Attributes["type"].Value;
                     }
                     switch (FormFieldType)
                     {
