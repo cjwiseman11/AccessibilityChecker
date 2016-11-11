@@ -13,7 +13,7 @@ namespace AccessibilityChecker
     {
         static void Main(string[] args)
         {
-            ColourChecker ColourBlindChecker = new ColourChecker();
+            ColourChecker ColourChecker = new ColourChecker();
 
             var incorrect = true;
             var html = "";
@@ -31,7 +31,7 @@ namespace AccessibilityChecker
                 {
                     WebClient client = new WebClient();
                     client.DownloadString(url);
-                    html = loadChrome(url, ColourBlindChecker);
+                    html = loadChrome(url, ColourChecker);
                     incorrect = false;
                 } catch (WebException)
                 {
@@ -59,7 +59,7 @@ namespace AccessibilityChecker
             FormChecker.LabelCheck(doc);
 
             Console.WriteLine("\n###Running Colour Check");
-            ColourBlindChecker.GetColourDifference();
+            ColourChecker.GetColourDifference();
         }
 
         public static string loadChrome(string url, ColourChecker ColourBlindChecker)

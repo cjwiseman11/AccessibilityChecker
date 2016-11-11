@@ -12,6 +12,7 @@ namespace AccessibilityChecker
 {
     class ColourChecker
     {
+        public List<string> DivToShow = new List<String>();
         public List<string> TextColours = new List<string>();
         public List<string> BackgroundColours = new List<string>();
 
@@ -20,6 +21,7 @@ namespace AccessibilityChecker
             var TextElements = driver.FindElementsByTagName("p");
             foreach(var TextElement in TextElements)
             {
+
                 TextColours.Add(TextElement.GetCssValue("color"));
 
                 if (TextElement.GetCssValue("background").Contains("rgba(0, 0, 0, 0)")){
@@ -29,47 +31,62 @@ namespace AccessibilityChecker
                         TextElementParent = TextElementParent.FindElement(By.XPath("./.."));
                     }
                     BackgroundColours.Add(TextElementParent.GetCssValue("background"));
+                    DivToShow.Add(TextElement.GetAttribute("innerHTML").ToString().Split(' ').First());
                 }
                 else {
                     BackgroundColours.Add(TextElement.GetCssValue("background"));
+                    DivToShow.Add(TextElement.GetAttribute("innerHTML").ToString().Split(' ').First());
                 }
             }
         }
 
         public void GetColourDifference()
         {
-            //"rgba(51, 51, 51, 1)"
-            //Proof of Concept - TIDY UP and make dynamic :)
-            var colorToConvert = TextColours[0].ToString();
-            colorToConvert = colorToConvert.Replace("rgba(", "");
-            colorToConvert = colorToConvert.Replace("rgb(", "");
-            colorToConvert = colorToConvert.Replace(")", "");
-            colorToConvert = colorToConvert.Replace(" none repeat scroll 0% 0% / auto padding-box border-box", "");
-            var splitColour = colorToConvert.Split(',');
+            for (int i = 0; i < TextColours.Count && i < BackgroundColours.Count; i++)
+            {
+                var colorToConvert = TextColours[i].ToString();
+                var splitColour = colorToConvert.Split(',');
+                List<string> rgbList = new List<string>();
 
-            var r = Convert.ToDouble(splitColour[0]);
-            var g = Convert.ToDouble(splitColour[1]);
-            var b = Convert.ToDouble(splitColour[2]);
+                foreach (var colour in splitColour)
+                {
+                    rgbList.Add(string.Join("", colour.Where(char.IsDigit)));
+                }
 
-            var rgbFont = new Rgb { R = r, G = g, B = b };
-            var lab = rgbFont.To<Lab>();
+                var r = Convert.ToDouble(rgbList[0]);
+                var g = Convert.ToDouble(rgbList[1]);
+                var b = Convert.ToDouble(rgbList[2]);
+                if (rgbList.Count == 4)
+                {
+                    var a = Convert.ToDouble(rgbList[3]);
+                }
 
-            var backToConvert = BackgroundColours[0].ToString();
-            backToConvert = backToConvert.Replace("rgba(", "");
-            backToConvert = backToConvert.Replace("rgb(", "");
-            backToConvert = backToConvert.Replace(")", "");
-            backToConvert = backToConvert.Replace(" none repeat scroll 0% 0% / auto padding-box border-box", "");
-            var splitBackColour = backToConvert.Split(',');
+                var rgbFont = new Rgb { R = r, G = g, B = b };
+                var lab = rgbFont.To<Lab>();
 
-            var rB = Convert.ToDouble(splitBackColour[0]);
-            var gB = Convert.ToDouble(splitBackColour[1]);
-            var bB = Convert.ToDouble(splitBackColour[2]);
+                var backToConvert = BackgroundColours[i].ToString();
+                var splitBackColour = backToConvert.Split(',');
+                List<string> backRgbList = new List<string>();
 
-            var rgbBack = new Rgb { R = rB, G = gB, B = bB };
-            var labBack = rgbBack.To<Lab>();
+                foreach (var colour in splitBackColour)
+                {
+                    backRgbList.Add(string.Join("", colour.Where(char.IsDigit)).Substring(0, 3));
+                }
 
-            double deltaE = lab.Compare(labBack, new Cie1976Comparison());
-            Console.WriteLine("Font and Background colour is roughly: " + deltaE.ToString("G3") + "% different");
+                var rB = Convert.ToDouble(backRgbList[0]);
+                var gB = Convert.ToDouble(backRgbList[1]);
+                var bB = Convert.ToDouble(backRgbList[2]);
+                if (backRgbList.Count == 4)
+                {
+                    var aB = Convert.ToDouble(backRgbList[3]);
+                }
+
+                var rgbBack = new Rgb { R = rB, G = gB, B = bB };
+                var labBack = rgbBack.To<Lab>();
+
+                double deltaE = lab.Compare(labBack, new Cie1976Comparison());
+                Console.WriteLine("Area w/: " + DivToShow[i] + " | Font and Background colour is roughly: " + deltaE.ToString("G5") + "% different");
+            }
         }
 
         // RGB > LAB Conversion
