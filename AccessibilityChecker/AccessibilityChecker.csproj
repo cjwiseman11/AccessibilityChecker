@@ -60,7 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColourBlindChecker.cs" />
+    <Compile Include="ColourChecker.cs" />
     <Compile Include="FormChecker.cs" />
     <Compile Include="HeadingChecker.cs" />
     <Compile Include="ImageChecker.cs" />

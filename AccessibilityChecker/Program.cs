@@ -13,7 +13,7 @@ namespace AccessibilityChecker
     {
         static void Main(string[] args)
         {
-            ColourBlindChecker ColourBlindChecker = new ColourBlindChecker();
+            ColourChecker ColourBlindChecker = new ColourChecker();
 
             var incorrect = true;
             var html = "";
@@ -62,7 +62,7 @@ namespace AccessibilityChecker
             ColourBlindChecker.GetColourDifference();
         }
 
-        public static string loadChrome(string url, ColourBlindChecker ColourBlindChecker)
+        public static string loadChrome(string url, ColourChecker ColourBlindChecker)
         {
             Console.WriteLine("Loading Selenium to get full HTML (JS, Ajax etc)");
             ChromeDriver driver = new ChromeDriver();

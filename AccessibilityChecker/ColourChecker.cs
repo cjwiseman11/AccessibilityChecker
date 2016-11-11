@@ -10,7 +10,7 @@ using System.Text;
 
 namespace AccessibilityChecker
 {
-    class ColourBlindChecker
+    class ColourChecker
     {
         public List<string> TextColours = new List<string>();
         public List<string> BackgroundColours = new List<string>();
@@ -21,7 +21,18 @@ namespace AccessibilityChecker
             foreach(var TextElement in TextElements)
             {
                 TextColours.Add(TextElement.GetCssValue("color"));
-                BackgroundColours.Add(TextElement.GetCssValue("background"));
+
+                if (TextElement.GetCssValue("background").Contains("rgba(0, 0, 0, 0)")){
+                    var TextElementParent = TextElement.FindElement(By.XPath("./.."));
+                    while (TextElementParent.GetCssValue("background").Contains("rgba(0, 0, 0, 0)"))
+                    {
+                        TextElementParent = TextElementParent.FindElement(By.XPath("./.."));
+                    }
+                    BackgroundColours.Add(TextElementParent.GetCssValue("background"));
+                }
+                else {
+                    BackgroundColours.Add(TextElement.GetCssValue("background"));
+                }
             }
         }
 
@@ -31,7 +42,9 @@ namespace AccessibilityChecker
             //Proof of Concept - TIDY UP and make dynamic :)
             var colorToConvert = TextColours[0].ToString();
             colorToConvert = colorToConvert.Replace("rgba(", "");
+            colorToConvert = colorToConvert.Replace("rgb(", "");
             colorToConvert = colorToConvert.Replace(")", "");
+            colorToConvert = colorToConvert.Replace(" none repeat scroll 0% 0% / auto padding-box border-box", "");
             var splitColour = colorToConvert.Split(',');
 
             var r = Convert.ToDouble(splitColour[0]);
@@ -43,7 +56,9 @@ namespace AccessibilityChecker
 
             var backToConvert = BackgroundColours[0].ToString();
             backToConvert = backToConvert.Replace("rgba(", "");
+            backToConvert = backToConvert.Replace("rgb(", "");
             backToConvert = backToConvert.Replace(")", "");
+            backToConvert = backToConvert.Replace(" none repeat scroll 0% 0% / auto padding-box border-box", "");
             var splitBackColour = backToConvert.Split(',');
 
             var rB = Convert.ToDouble(splitBackColour[0]);
