@@ -28,6 +28,7 @@ namespace AccessibilityChecker
         public void GetColourDifference()
         {
             //"rgba(51, 51, 51, 1)"
+            //Proof of Concept - TIDY UP and make dynamic :)
             var colorToConvert = TextColours[0].ToString();
             colorToConvert = colorToConvert.Replace("rgba(", "");
             colorToConvert = colorToConvert.Replace(")", "");
@@ -37,10 +38,23 @@ namespace AccessibilityChecker
             var g = Convert.ToDouble(splitColour[1]);
             var b = Convert.ToDouble(splitColour[2]);
 
-            var rgb = new Rgb { R = r, G = g, B = b };
-            var lab = rgb.To<Lab>();
+            var rgbFont = new Rgb { R = r, G = g, B = b };
+            var lab = rgbFont.To<Lab>();
 
-            double deltaE = rgb.Compare(rgb, new Cie1976Comparison());
+            var backToConvert = BackgroundColours[0].ToString();
+            backToConvert = backToConvert.Replace("rgba(", "");
+            backToConvert = backToConvert.Replace(")", "");
+            var splitBackColour = backToConvert.Split(',');
+
+            var rB = Convert.ToDouble(splitBackColour[0]);
+            var gB = Convert.ToDouble(splitBackColour[1]);
+            var bB = Convert.ToDouble(splitBackColour[2]);
+
+            var rgbBack = new Rgb { R = rB, G = gB, B = bB };
+            var labBack = rgbBack.To<Lab>();
+
+            double deltaE = lab.Compare(labBack, new Cie1976Comparison());
+            Console.WriteLine("Font and Background colour is roughly: " + deltaE.ToString("G3") + "% different");
         }
 
         // RGB > LAB Conversion
