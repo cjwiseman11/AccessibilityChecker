@@ -33,7 +33,7 @@ namespace AccessibilityChecker
                     client.DownloadString(url);
                     html = loadChrome(url, ColourChecker);
                     incorrect = false;
-                } catch (WebException)
+                } catch (WebException e)
                 {
                     Console.WriteLine("Cannot Connect. Please put in valid URL");
                 }

@@ -70,7 +70,13 @@ namespace AccessibilityChecker
 
                 foreach (var colour in splitBackColour)
                 {
-                    backRgbList.Add(string.Join("", colour.Where(char.IsDigit)).Substring(0, 3));
+                    if (colour.Length > 3)
+                    {
+                        backRgbList.Add(string.Join("", colour.Where(char.IsDigit)).Substring(0, 3));
+                    } else
+                    {
+                        backRgbList.Add(colour);
+                    }
                 }
 
                 var rB = Convert.ToDouble(backRgbList[0]);
