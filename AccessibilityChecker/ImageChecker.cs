@@ -20,7 +20,14 @@ namespace AccessibilityChecker
             {
                 if(ImgNode.Attributes["alt"] == null || ImgNode.Attributes["alt"].Equals(""))
                 {
-                    Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
+                    if (ImgNode.Attributes["src"] != null)
+                    {
+                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
+                    } else
+                    {
+                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["data-src"].Value);
+
+                    }
                     Fails++;
                 } else
                 {
