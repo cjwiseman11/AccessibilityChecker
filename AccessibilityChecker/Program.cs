@@ -60,6 +60,10 @@ namespace AccessibilityChecker
 
             Console.WriteLine("\n###Running Colour Check");
             ColourChecker.GetColourDifference();
+
+            Console.WriteLine("\n###Running Link Check");
+            LinkChecker LinkChecker = new LinkChecker();
+            LinkChecker.TitleCheck(doc);
         }
 
         public static string loadChrome(string url, ColourChecker ColourBlindChecker)

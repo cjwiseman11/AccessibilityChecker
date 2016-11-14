@@ -64,6 +64,7 @@
     <Compile Include="FormChecker.cs" />
     <Compile Include="HeadingChecker.cs" />
     <Compile Include="ImageChecker.cs" />
+    <Compile Include="LinkChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
