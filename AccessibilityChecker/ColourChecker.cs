@@ -42,6 +42,8 @@ namespace AccessibilityChecker
 
         public void GetColourDifference()
         {
+            var Passes = 0;
+            var Fails = 0;
             for (int i = 0; i < TextColours.Count && i < BackgroundColours.Count; i++)
             {
                 var colorToConvert = TextColours[i].ToString();
@@ -91,7 +93,18 @@ namespace AccessibilityChecker
                 var labBack = rgbBack.To<Lab>();
 
                 double deltaE = lab.Compare(labBack, new Cie1976Comparison());
-                Console.WriteLine("Area w/: " + DivToShow[i] + " | Font and Background colour is roughly: " + deltaE.ToString("G5") + "% different");
+                if(deltaE < 85.7 && deltaE > 77.8)
+                {
+                    Fails++;
+                    Console.WriteLine("Area w/: " + DivToShow[i] + " | AAA Fail, contrast: " + deltaE.ToString("G5") + "%");
+                } else if (deltaE <= 77.8)
+                {
+                    Console.WriteLine("Area w/: " + DivToShow[i] + " | AA Fail, contrast: " + deltaE.ToString("G5") + "%");
+                }
+                else
+                {
+                    Passes++;
+                }
             }
         }
 
