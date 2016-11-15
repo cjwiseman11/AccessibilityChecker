@@ -39,38 +39,31 @@ namespace AccessibilityChecker
                 }
             }
 
-            Results Results = new Results();
-
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
             Console.WriteLine("\n###Running Heading Checker");
             HeadingChecker HeadingChecker = new HeadingChecker();
-            var HeadingOneExists = HeadingChecker.DoesHeadingOneExist(doc);
-            Results.DoesHeadingOneExist = HeadingOneExists;
+            var HeadingOneExists = HeadingChecker.HeadingAmount(doc);
             if (HeadingOneExists)
             {
-                Results.HeadingResult = HeadingChecker.HeadingOneCheck(doc);
-                Console.WriteLine(Results.HeadingResult);
+                HeadingChecker.HeadingOneCheck(doc);
             }
 
             Console.WriteLine("\n###Running Image Checker");
             ImageChecker ImageChecker = new ImageChecker();
-            Results.AltTagsResult = ImageChecker.AltTagsCheck(doc);
+            ImageChecker.AltTagsCheck(doc);
 
             Console.WriteLine("\n###Running Form Checker");
             FormChecker FormChecker = new FormChecker();
-            Results.FormLabelResult = FormChecker.LabelCheck(doc);
+            FormChecker.LabelCheck(doc);
 
             Console.WriteLine("\n###Running Colour Check");
             ColourChecker.GetColourDifference();
 
             Console.WriteLine("\n###Running Link Check");
             LinkChecker LinkChecker = new LinkChecker();
-            Results.LinkTitleResult = LinkChecker.TitleCheck(doc);
-
-            Reporter reporter = new Reporter();
-            reporter.WriteToTextFile(Results);
+            LinkChecker.TitleCheck(doc);
         }
 
         public static string loadChrome(string url, ColourChecker ColourBlindChecker)

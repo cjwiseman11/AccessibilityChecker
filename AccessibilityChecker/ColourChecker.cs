@@ -40,43 +40,6 @@ namespace AccessibilityChecker
             }
         }
 
-        public void GetContrastDifference(double r, double g, double b, double rB, double gB, double bB) {
-
-            var fontNumber = (299*r + 587*g + 114*b) / 1000;
-            var backgroundNumber = (299 * rB + 587 * gB + 114 * bB) / 1000;
-            var contrastDifference = 0.00;
-            var ratioPercentage = 0.00;
-            var ratio = "";
-
-            var gcd = GCD((int)fontNumber, (int)backgroundNumber);
-
-            if (fontNumber >= backgroundNumber)
-            {
-                contrastDifference = fontNumber - backgroundNumber;
-                ratioPercentage = ((fontNumber / gcd) / (backgroundNumber / gcd)) * 100;
-                ratio = string.Format("{0}:{1}", fontNumber / gcd, backgroundNumber / gcd);
-            }
-            else
-            {
-                contrastDifference = backgroundNumber - fontNumber;
-                ratioPercentage = ((backgroundNumber / gcd) / (fontNumber / gcd)) * 100;
-                ratio = string.Format("{0}:{1}", backgroundNumber / gcd, fontNumber / gcd);
-            }
-
-            if (ratioPercentage < 450)
-            {
-                Console.WriteLine("Contrast does not comply with AA (4.5:1), ratio: " + ratio);
-            } else if(ratioPercentage < 700)
-            {
-                Console.WriteLine("Contrast does not comply with AAA (7:1), ratio: " + ratio);
-            }
-        }
-
-        static int GCD(int a, int b)
-        {
-            return b == 0 ? a : GCD(b, a % b);
-        }
-
         public void GetColourDifference()
         {
             var Passes = 0;
@@ -129,7 +92,7 @@ namespace AccessibilityChecker
                 var rgbBack = new Rgb { R = rB, G = gB, B = bB };
                 var labBack = rgbBack.To<Lab>();
 
-                /*double deltaE = lab.Compare(labBack, new Cie1976Comparison());
+                double deltaE = lab.Compare(labBack, new Cie1976Comparison());
                 if(deltaE < 85.7 && deltaE > 77.8)
                 {
                     Fails++;
@@ -141,9 +104,7 @@ namespace AccessibilityChecker
                 else
                 {
                     Passes++;
-                }*/
-
-                GetContrastDifference(r, g, b, rB, gB, bB);
+                }
             }
         }
 

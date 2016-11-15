@@ -8,15 +8,13 @@ namespace AccessibilityChecker
 {
     class ImageChecker
     {
-        public List<string> AltTagsCheck(HtmlDocument doc)
+        public void AltTagsCheck(HtmlDocument doc)
         {
             var Fails = 0;
             var Passes = 0;
             var ImgNodes = doc.DocumentNode.Descendants("img");
-            List<string> results = new List<string>();
 
             Console.WriteLine("Images Found: " + ImgNodes.Count());
-            results.Add("Images Found: " + ImgNodes.Count());
 
             foreach(var ImgNode in ImgNodes)
             {
@@ -24,10 +22,10 @@ namespace AccessibilityChecker
                 {
                     if (ImgNode.Attributes["src"] != null)
                     {
-                        results.Add("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
+                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
                     } else
                     {
-                        results.Add("Missing Alt Tag on Image: " + ImgNode.Attributes["data-src"].Value);
+                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["data-src"].Value);
 
                     }
                     Fails++;
@@ -37,7 +35,6 @@ namespace AccessibilityChecker
                 }
             }
             Console.WriteLine("Fails: " + Fails + ", Passes: " + Passes);
-            return results;
         }
     }
 }
