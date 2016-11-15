@@ -8,11 +8,12 @@ namespace AccessibilityChecker
 {
     class LinkChecker
     {
-        public void TitleCheck(HtmlDocument doc)
+        public List<string> TitleCheck(HtmlDocument doc)
         {
             var Passes = 0;
             var Fails = 0;
             var LinkList = doc.DocumentNode.Descendants("a");
+            List<string> results = new List<string>();
 
             Console.WriteLine("Links Found: " + LinkList.Count());
 
@@ -24,6 +25,7 @@ namespace AccessibilityChecker
                 {
                     Fails++;
                     Console.WriteLine("\nThis link requires a Title tag: " + link.InnerText);
+                    results.Add("This link requires a Title tag: " + link.InnerText);
                 } else
                 {
                     Passes++;
@@ -31,6 +33,7 @@ namespace AccessibilityChecker
             }
 
             Console.WriteLine("Fails: " + Fails + ", Passes: " + Passes);
+            return results;
         }
     }
 }
