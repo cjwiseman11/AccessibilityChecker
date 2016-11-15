@@ -40,8 +40,8 @@ namespace AccessibilityChecker
             }
         }
 
-        public void GetContrastDifference(double r, double g, double b, double rB, double gB, double bB) {
-
+        public List<string> GetContrastDifference(double r, double g, double b, double rB, double gB, double bB) {
+            List<string> results = new List<string>();
             var fontNumber = (299*r + 587*g + 114*b) / 1000;
             var backgroundNumber = (299 * rB + 587 * gB + 114 * bB) / 1000;
             var contrastDifference = 0.00;
@@ -66,10 +66,14 @@ namespace AccessibilityChecker
             if (ratioPercentage < 450)
             {
                 Console.WriteLine("Contrast does not comply with AA (4.5:1), ratio: " + ratio);
+                results.Add("Contrast does not comply with AA (4.5:1), ratio: " + ratio);
             } else if(ratioPercentage < 700)
             {
                 Console.WriteLine("Contrast does not comply with AAA (7:1), ratio: " + ratio);
+                results.Add("Contrast does not comply with AAA (7:1), ratio: " + ratio);
             }
+
+            return results;
         }
 
         static int GCD(int a, int b)
@@ -77,10 +81,11 @@ namespace AccessibilityChecker
             return b == 0 ? a : GCD(b, a % b);
         }
 
-        public void GetColourDifference()
+        public List<string> GetColourDifference()
         {
             var Passes = 0;
             var Fails = 0;
+            List<string> results = new List<string>();
             for (int i = 0; i < TextColours.Count && i < BackgroundColours.Count; i++)
             {
                 var colorToConvert = TextColours[i].ToString();
@@ -129,7 +134,7 @@ namespace AccessibilityChecker
                 var rgbBack = new Rgb { R = rB, G = gB, B = bB };
                 var labBack = rgbBack.To<Lab>();
 
-                /*double deltaE = lab.Compare(labBack, new Cie1976Comparison());
+                double deltaE = lab.Compare(labBack, new Cie1976Comparison());
                 if(deltaE < 85.7 && deltaE > 77.8)
                 {
                     Fails++;
@@ -141,10 +146,11 @@ namespace AccessibilityChecker
                 else
                 {
                     Passes++;
-                }*/
+                }
 
-                GetContrastDifference(r, g, b, rB, gB, bB);
+                results.AddRange(GetContrastDifference(r, g, b, rB, gB, bB));
             }
+            return results;
         }
 
         // RGB > LAB Conversion

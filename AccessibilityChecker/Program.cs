@@ -63,7 +63,7 @@ namespace AccessibilityChecker
             Results.FormLabelResult = FormChecker.LabelCheck(doc);
 
             Console.WriteLine("\n###Running Colour Check");
-            ColourChecker.GetColourDifference();
+            Results.ColourContrastResult = ColourChecker.GetColourDifference();
 
             Console.WriteLine("\n###Running Link Check");
             LinkChecker LinkChecker = new LinkChecker();

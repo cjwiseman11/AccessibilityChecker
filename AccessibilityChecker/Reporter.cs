@@ -24,6 +24,12 @@ namespace AccessibilityChecker
                     writer.WriteLine(AltTagResult);
                 }
 
+                writer.WriteLine("\nColour ChecK:");
+                foreach (var ColourContrastResult in Results.ColourContrastResult)
+                {
+                    writer.WriteLine(ColourContrastResult);
+                }
+
                 writer.WriteLine("\nForm Label Check: ");
                 foreach (var FormLabelResult in Results.FormLabelResult)
                 {
