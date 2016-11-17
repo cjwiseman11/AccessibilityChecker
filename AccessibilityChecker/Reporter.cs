@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +12,11 @@ namespace AccessibilityChecker
     {
         public void WriteToTextFile(Results Results)
         {
-            using (StreamWriter writer = new StreamWriter("Output.txt"))
+            using (StreamWriter writer = new StreamWriter(DateTime.Now.ToString("d.M.yy H.mm.ss") + " - " + ReplaceUrl(Results.UrlToCheck) + ".txt"))
             {
+                writer.WriteLine(Results.UrlToCheck);
+                writer.WriteLine();
+
                 writer.Write("Heading One Exists? ");
                 writer.Write(Results.DoesHeadingOneExist);
                 writer.WriteLine("");
@@ -47,6 +52,15 @@ namespace AccessibilityChecker
                     writer.WriteLine(LinkTitleResult);
                 }
             }
+
+
+        }
+
+        public string ReplaceUrl(string query)
+        {
+            query = query.Replace("http://", "");
+
+            return query;
         }
     }
 }

@@ -7,6 +7,8 @@ namespace AccessibilityChecker
 {
     class Results
     {
+        public string UrlToCheck { get; set; }
+
         public bool DoesHeadingOneExist { get; set; }
 
         public string HeadingResult { get; set; }

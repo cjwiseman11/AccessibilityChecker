@@ -10,8 +10,6 @@ namespace AccessibilityChecker
     {
         public List<string> ContextlessLinkCheck(HtmlDocument doc)
         {
-            var Passes = 0;
-            var Fails = 0;
             var LinkList = doc.DocumentNode.Descendants("a");
             List<string> results = new List<string>();
 

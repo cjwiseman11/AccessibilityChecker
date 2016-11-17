@@ -14,6 +14,7 @@ namespace AccessibilityChecker
         static void Main(string[] args)
         {
             ColourChecker ColourChecker = new ColourChecker();
+            Results Results = new Results();
 
             var incorrect = true;
             var html = "";
@@ -33,13 +34,12 @@ namespace AccessibilityChecker
                     client.DownloadString(url);
                     html = loadChrome(url, ColourChecker);
                     incorrect = false;
-                } catch (WebException e)
+                } catch (WebException)
                 {
                     Console.WriteLine("Cannot Connect. Please put in valid URL");
                 }
+                Results.UrlToCheck = url;
             }
-
-            Results Results = new Results();
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
