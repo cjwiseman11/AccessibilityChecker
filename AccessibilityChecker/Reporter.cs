@@ -12,32 +12,37 @@ namespace AccessibilityChecker
         {
             using (StreamWriter writer = new StreamWriter("Output.txt"))
             {
-                writer.WriteLine("Does Heading One Exist:");
-                writer.WriteLine(Results.DoesHeadingOneExist);
+                writer.Write("Heading One Exists? ");
+                writer.Write(Results.DoesHeadingOneExist);
+                writer.WriteLine("");
 
                 writer.WriteLine("\nHeading One Check: ");
                 writer.WriteLine(Results.HeadingResult);
+                writer.WriteLine("");
 
                 writer.WriteLine("\nAlt Tag Check: ");
                 foreach (var AltTagResult in Results.AltTagsResult)
                 {
                     writer.WriteLine(AltTagResult);
                 }
+                writer.WriteLine("");
 
                 writer.WriteLine("\nColour ChecK:");
                 foreach (var ColourContrastResult in Results.ColourContrastResult)
                 {
                     writer.WriteLine(ColourContrastResult);
                 }
+                writer.WriteLine("");
 
                 writer.WriteLine("\nForm Label Check: ");
                 foreach (var FormLabelResult in Results.FormLabelResult)
                 {
                     writer.WriteLine(FormLabelResult);
                 }
+                writer.WriteLine("");
 
                 writer.WriteLine("\nLink Title Check: ");
-                foreach (var LinkTitleResult in Results.LinkTitleResult)
+                foreach (var LinkTitleResult in Results.ContextlessLinkCheckResult)
                 {
                     writer.WriteLine(LinkTitleResult);
                 }

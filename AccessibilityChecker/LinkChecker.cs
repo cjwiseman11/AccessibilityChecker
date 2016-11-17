@@ -8,7 +8,31 @@ namespace AccessibilityChecker
 {
     class LinkChecker
     {
-        public List<string> TitleCheck(HtmlDocument doc)
+        public List<string> ContextlessLinkCheck(HtmlDocument doc)
+        {
+            var Passes = 0;
+            var Fails = 0;
+            var LinkList = doc.DocumentNode.Descendants("a");
+            List<string> results = new List<string>();
+
+            foreach(var Link in LinkList)
+            {
+                if (Link.InnerText.Contains("click"))
+                {
+                    results.Add("Link " + Link.InnerText + " should not contain 'click'");
+                } else if (Link.InnerText.Contains("link"))
+                {
+                    results.Add("Link " + Link.InnerText + " should not contain 'link'");
+                } else if (Link.InnerText.Contains("http") || Link.InnerText.Contains("www."))
+                {
+                    results.Add("Link " + Link.InnerText + " should not contain URL");
+                }
+            }
+
+            return results;
+        }
+
+        /*public List<string> TitleCheck(HtmlDocument doc)
         {
             var Passes = 0;
             var Fails = 0;
@@ -34,6 +58,7 @@ namespace AccessibilityChecker
 
             Console.WriteLine("Fails: " + Fails + ", Passes: " + Passes);
             return results;
-        }
+            }
+            */
     }
 }

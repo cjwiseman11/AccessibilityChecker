@@ -36,7 +36,7 @@ namespace AccessibilityChecker
                 {
                     Fails++;
                     var FormFieldType = "";
-                    if(FormField.Attributes["type"].Value == null)
+                    if(FormField.Attributes["type"] == null)
                     {
                         FormFieldType = "Error";
                     } else

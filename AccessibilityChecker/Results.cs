@@ -17,6 +17,6 @@ namespace AccessibilityChecker
 
         public List<string> FormLabelResult { get; set; }
 
-        public List<string> LinkTitleResult { get; set; }
+        public List<string> ContextlessLinkCheckResult { get; set; }
     }
 }

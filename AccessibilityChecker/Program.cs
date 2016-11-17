@@ -67,7 +67,7 @@ namespace AccessibilityChecker
 
             Console.WriteLine("\n###Running Link Check");
             LinkChecker LinkChecker = new LinkChecker();
-            Results.LinkTitleResult = LinkChecker.TitleCheck(doc);
+            Results.ContextlessLinkCheckResult = LinkChecker.ContextlessLinkCheck(doc);
 
             Reporter reporter = new Reporter();
             reporter.WriteToTextFile(Results);
