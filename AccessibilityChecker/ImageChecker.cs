@@ -28,7 +28,7 @@ namespace AccessibilityChecker
                         results.Add("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
                     } else
                     {
-                        results.Add("Missing Alt Tag on Image: " + ImgNode.Attributes["data-src"].Value);
+                        results.Add("Missing Alt Tag on Image which has no src value");
 
                     }
                     Fails++;
