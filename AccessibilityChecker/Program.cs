@@ -31,7 +31,7 @@ namespace AccessibilityChecker
                 try
                 {
                     WebClient client = new WebClient();
-                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                    //client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     client.DownloadString(url);
                     html = loadChrome(url, ColourChecker);
                     incorrect = false;
@@ -58,6 +58,7 @@ namespace AccessibilityChecker
             Console.WriteLine("\n###Running Image Checker");
             ImageChecker ImageChecker = new ImageChecker();
             Results.AltTagsResult = ImageChecker.AltTagsCheck(doc);
+            Results.AltTagsFound = ImageChecker.AltTagsFoundList;
 
             Console.WriteLine("\n###Running Form Checker");
             FormChecker FormChecker = new FormChecker();

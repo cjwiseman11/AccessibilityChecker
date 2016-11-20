@@ -8,34 +8,39 @@ namespace AccessibilityChecker
 {
     class ImageChecker
     {
-        public void AltTagsCheck(HtmlDocument doc)
+
+        public List<string> AltTagsCheck(HtmlDocument doc)
         {
             var Fails = 0;
             var Passes = 0;
             var ImgNodes = doc.DocumentNode.Descendants("img");
+            List<string> results = new List<string>();
 
             Console.WriteLine("Images Found: " + ImgNodes.Count());
+            results.Add("Images Found: " + ImgNodes.Count());
 
-            foreach(var ImgNode in ImgNodes)
+            foreach (var ImgNode in ImgNodes)
             {
-                if(ImgNode.Attributes["alt"] == null || ImgNode.Attributes["alt"].Equals(""))
+                if (ImgNode.Attributes["alt"] == null || ImgNode.Attributes["alt"].Equals(""))
                 {
                     if (ImgNode.Attributes["src"] != null)
                     {
-                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
+                        results.Add("Missing Alt Tag on Image: " + ImgNode.Attributes["src"].Value);
                     } else
                     {
-                        Console.WriteLine("Missing Alt Tag on Image: " + ImgNode.Attributes["data-src"].Value);
+                        results.Add("Missing Alt Tag on Image which has no src value");
 
                     }
                     Fails++;
                 } else
                 {
-                    results.Insert(1,"Alt Tag Found: " + ImgNode.Attributes["src"].Value + " Alt: " + ImgNode.Attributes["alt"].Value);
+                    AltTagsFoundList.Add("Alt Tag Found: " + ImgNode.Attributes["src"].Value + " Alt: " + ImgNode.Attributes["alt"].Value);
                     Passes++;
                 }
             }
             Console.WriteLine("Fails: " + Fails + ", Passes: " + Passes);
+            return results;
         }
+        public List<string> AltTagsFoundList = new List<string>();
     }
 }
