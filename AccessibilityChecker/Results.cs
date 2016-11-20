@@ -20,5 +20,7 @@ namespace AccessibilityChecker
         public List<string> FormLabelResult { get; set; }
 
         public List<string> ContextlessLinkCheckResult { get; set; }
+
+        public List<string> AltTagsFound = new List<string>();
     }
 }

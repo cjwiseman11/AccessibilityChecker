@@ -51,6 +51,13 @@ namespace AccessibilityChecker
                 {
                     writer.WriteLine(LinkTitleResult);
                 }
+
+                writer.WriteLine();
+                writer.WriteLine("#######################Successful Stuff#######################");
+                foreach (var AltTag in Results.AltTagsFound)
+                {
+                    writer.WriteLine(AltTag);
+                }
             }
 
 
@@ -60,7 +67,10 @@ namespace AccessibilityChecker
         {
             query = query.Replace("https://", "");
             query = query.Replace("http://", "");
-            query = query.Substring(0, query.IndexOf("/"));
+            if (query.Contains("/"))
+            {
+                query = query.Substring(0, query.IndexOf("/"));
+            }
 
             return query;
         }
