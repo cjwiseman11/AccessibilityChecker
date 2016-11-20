@@ -14,6 +14,7 @@ namespace AccessibilityChecker
         static void Main(string[] args)
         {
             ColourChecker ColourChecker = new ColourChecker();
+            Results Results = new Results();
 
             var incorrect = true;
             var html = "";
@@ -30,13 +31,15 @@ namespace AccessibilityChecker
                 try
                 {
                     WebClient client = new WebClient();
+                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     client.DownloadString(url);
                     html = loadChrome(url, ColourChecker);
                     incorrect = false;
                 } catch (WebException e)
                 {
-                    Console.WriteLine("Cannot Connect. Please put in valid URL");
+                    Console.WriteLine("Cannot Connect. Please put in valid URL: " + e);
                 }
+                Results.UrlToCheck = url;
             }
 
             HtmlDocument doc = new HtmlDocument();
@@ -44,26 +47,31 @@ namespace AccessibilityChecker
 
             Console.WriteLine("\n###Running Heading Checker");
             HeadingChecker HeadingChecker = new HeadingChecker();
-            var HeadingOneExists = HeadingChecker.HeadingAmount(doc);
+            var HeadingOneExists = HeadingChecker.DoesHeadingOneExist(doc);
+            Results.DoesHeadingOneExist = HeadingOneExists;
             if (HeadingOneExists)
             {
-                HeadingChecker.HeadingOneCheck(doc);
+                Results.HeadingResult = HeadingChecker.HeadingOneCheck(doc);
+                Console.WriteLine(Results.HeadingResult);
             }
 
             Console.WriteLine("\n###Running Image Checker");
             ImageChecker ImageChecker = new ImageChecker();
-            ImageChecker.AltTagsCheck(doc);
+            Results.AltTagsResult = ImageChecker.AltTagsCheck(doc);
 
             Console.WriteLine("\n###Running Form Checker");
             FormChecker FormChecker = new FormChecker();
-            FormChecker.LabelCheck(doc);
+            Results.FormLabelResult = FormChecker.LabelCheck(doc);
 
             Console.WriteLine("\n###Running Colour Check");
-            ColourChecker.GetColourDifference();
+            Results.ColourContrastResult = ColourChecker.GetColourDifference();
 
             Console.WriteLine("\n###Running Link Check");
             LinkChecker LinkChecker = new LinkChecker();
-            LinkChecker.TitleCheck(doc);
+            Results.ContextlessLinkCheckResult = LinkChecker.ContextlessLinkCheck(doc);
+
+            Reporter reporter = new Reporter();
+            reporter.WriteToTextFile(Results);
         }
 
         public static string loadChrome(string url, ColourChecker ColourBlindChecker)

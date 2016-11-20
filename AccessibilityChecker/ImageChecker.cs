@@ -31,6 +31,7 @@ namespace AccessibilityChecker
                     Fails++;
                 } else
                 {
+                    results.Insert(1,"Alt Tag Found: " + ImgNode.Attributes["src"].Value + " Alt: " + ImgNode.Attributes["alt"].Value);
                     Passes++;
                 }
             }
