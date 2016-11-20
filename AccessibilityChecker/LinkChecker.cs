@@ -15,18 +15,22 @@ namespace AccessibilityChecker
 
             foreach(var Link in LinkList)
             {
-                if (Link.InnerText.Contains("click"))
+                var LinkText = Link.InnerText.ToLower();
+                if (LinkText.Contains("click"))
                 {
-                    results.Add("Link " + Link.InnerText + " should not contain 'click'");
-                } else if (Link.InnerText.Contains("link"))
+                    results.Add("Link " + Link + " should not contain 'click'");
+                } else if (LinkText.Contains("link"))
                 {
                     results.Add("Link " + Link.InnerText + " should not contain 'link'");
-                } else if (Link.InnerText.Contains("http") || Link.InnerText.Contains("www."))
+                } else if (LinkText.Contains("http") || LinkText.Contains("www."))
                 {
                     results.Add("Link " + Link.InnerText + " should not contain URL");
+                } else if (LinkText.Contains("download here") || LinkText.Contains("download now"))
+                {
+                    results.Add("Link " + Link.InnerText + " should not contain 'download' out of context");
                 }
-            }
 
+            }
             return results;
         }
 

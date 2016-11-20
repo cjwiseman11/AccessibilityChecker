@@ -31,16 +31,16 @@ namespace AccessibilityChecker
                         TextElementParent = TextElementParent.FindElement(By.XPath("./.."));
                     }
                     BackgroundColours.Add(TextElementParent.GetCssValue("background"));
-                    DivToShow.Add(TextElement.GetAttribute("innerHTML").ToString().Split(' ').First());
+                    DivToShow.Add(string.Join(" ", TextElement.GetAttribute("innerHTML").ToString().Split().Take(3)));
                 }
                 else {
                     BackgroundColours.Add(TextElement.GetCssValue("background"));
-                    DivToShow.Add(TextElement.GetAttribute("innerHTML").ToString().Split(' ').First());
+                    DivToShow.Add(string.Join(" ", TextElement.GetAttribute("innerHTML").ToString().Split().Take(3)));
                 }
             }
         }
 
-        public List<string> GetContrastDifference(double r, double g, double b, double rB, double gB, double bB) {
+        public List<string> GetContrastDifference(double r, double g, double b, double rB, double gB, double bB, string div) {
             List<string> results = new List<string>();
             var fontNumber = (299*r + 587*g + 114*b) / 1000;
             var backgroundNumber = (299 * rB + 587 * gB + 114 * bB) / 1000;
@@ -65,12 +65,12 @@ namespace AccessibilityChecker
 
             if (ratioPercentage < 450)
             {
-                Console.WriteLine("Contrast does not comply with AA (4.5:1), ratio: " + ratio);
-                results.Add("Contrast does not comply with AA (4.5:1), ratio: " + ratio);
+                Console.WriteLine(string.Format("'{0}' - Contract does not comply with AA (4.5:1), ratio: {1}", div, ratio));
+                results.Add(string.Format("'{0}' - Contract does not comply with AA (4.5:1), ratio: {1}", div, ratio));
             } else if(ratioPercentage < 700)
             {
-                Console.WriteLine("Contrast does not comply with AAA (7:1), ratio: " + ratio);
-                results.Add("Contrast does not comply with AAA (7:1), ratio: " + ratio);
+                Console.WriteLine(string.Format("'{0}' - Contrast does not comply with AAA (7:1), ratio: {1}", div, ratio));
+                results.Add(string.Format("'{0}' - Contrast does not comply with AAA (7:1), ratio: {1}", div, ratio));
             }
 
             return results;
@@ -94,7 +94,17 @@ namespace AccessibilityChecker
 
                 foreach (var colour in splitColour)
                 {
-                    rgbList.Add(string.Join("", colour.Where(char.IsDigit)));
+                    var colourToCheck = "";
+
+                    if (colour.Contains(")"))
+                    {
+                        colourToCheck = colour.Substring(0, colour.IndexOf(")"));
+                        rgbList.Add(string.Join("", colourToCheck.Where(char.IsDigit)));
+                    }
+                    else
+                    {
+                        rgbList.Add(string.Join("", colour.Where(char.IsDigit)));
+                    }
                 }
 
                 var r = Convert.ToDouble(rgbList[0]);
@@ -114,12 +124,16 @@ namespace AccessibilityChecker
 
                 foreach (var colour in splitBackColour)
                 {
-                    if (colour.Length > 3)
+                    var colourToCheck = "";
+
+                    if (colour.Contains(")"))
                     {
-                        backRgbList.Add(string.Join("", colour.Where(char.IsDigit)).Substring(0, 3));
-                    } else
+                        colourToCheck = colour.Substring(0, colour.IndexOf(")"));
+                        backRgbList.Add(string.Join("", colourToCheck.Where(char.IsDigit)));
+                    }
+                    else
                     {
-                        backRgbList.Add(colour);
+                        backRgbList.Add(string.Join("", colour.Where(char.IsDigit)));
                     }
                 }
 
@@ -148,7 +162,7 @@ namespace AccessibilityChecker
                     Passes++;
                 }
 
-                results.AddRange(GetContrastDifference(r, g, b, rB, gB, bB));
+                results.AddRange(GetContrastDifference(r, g, b, rB, gB, bB, DivToShow[i]));
             }
             return results;
         }

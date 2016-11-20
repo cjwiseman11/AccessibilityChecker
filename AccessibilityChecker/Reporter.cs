@@ -58,7 +58,9 @@ namespace AccessibilityChecker
 
         public string ReplaceUrl(string query)
         {
+            query = query.Replace("https://", "");
             query = query.Replace("http://", "");
+            query = query.Substring(0, query.IndexOf("/"));
 
             return query;
         }
