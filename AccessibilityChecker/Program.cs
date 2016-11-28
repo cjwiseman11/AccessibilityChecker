@@ -54,6 +54,7 @@ namespace AccessibilityChecker
                 Results.HeadingResult = HeadingChecker.HeadingOneCheck(doc);
                 Console.WriteLine(Results.HeadingResult);
             }
+            Results.PageHeadings = HeadingChecker.PageHeadings(doc);
 
             Console.WriteLine("\n###Running Image Checker");
             ImageChecker ImageChecker = new ImageChecker();

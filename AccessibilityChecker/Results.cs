@@ -11,7 +11,9 @@ namespace AccessibilityChecker
 
         public bool DoesHeadingOneExist { get; set; }
 
-        public string HeadingResult { get; set; }
+        public string HeadingResult { get; set; } // Might not be required anymore
+
+        public List<string> PageHeadings { get; set; }
 
         public List<string> AltTagsResult { get; set; }
 

@@ -14,9 +14,10 @@ namespace AccessibilityChecker
         {
             using (StreamWriter writer = new StreamWriter(DateTime.Now.ToString("d.M.yy H.mm.ss") + " - " + ReplaceUrl(Results.UrlToCheck) + ".txt"))
             {
-                writer.WriteLine(Results.UrlToCheck);
-                writer.WriteLine();
+                writer.WriteLine(Results.UrlToCheck + " on " + DateTime.Now.ToString("d.M.yy H.mm.ss"));
+                writer.WriteLine("");
 
+                writer.WriteLine("##### Page Headings #####");
                 writer.Write("Heading One Exists? ");
                 writer.Write(Results.DoesHeadingOneExist);
                 writer.WriteLine("");
@@ -25,6 +26,13 @@ namespace AccessibilityChecker
                 writer.WriteLine(Results.HeadingResult);
                 writer.WriteLine("");
 
+                foreach (var PageHeading in Results.PageHeadings)
+                {
+                    writer.WriteLine(PageHeading);
+                }
+                writer.WriteLine("");
+
+                writer.WriteLine("##### Images #####");
                 writer.WriteLine("\nAlt Tag Check: ");
                 foreach (var AltTagResult in Results.AltTagsResult)
                 {
