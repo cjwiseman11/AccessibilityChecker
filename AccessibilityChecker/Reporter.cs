@@ -40,6 +40,20 @@ namespace AccessibilityChecker
                 }
                 writer.WriteLine("");
 
+                writer.WriteLine("##### Links #####");
+                writer.WriteLine("\nLink Title Check: ");
+                foreach (var LinkTitleResult in Results.ContextlessLinkCheckResult)
+                {
+                    writer.WriteLine(LinkTitleResult);
+                }
+                writer.WriteLine("");
+                foreach (var PageLink in Results.PageLinks)
+                {
+                    writer.WriteLine(PageLink);
+                }
+                writer.WriteLine("");
+
+                writer.WriteLine("##### Colour #####");
                 writer.WriteLine("\nColour ChecK:");
                 foreach (var ColourContrastResult in Results.ColourContrastResult)
                 {
@@ -47,17 +61,11 @@ namespace AccessibilityChecker
                 }
                 writer.WriteLine("");
 
+                writer.WriteLine("##### Forms #####");
                 writer.WriteLine("\nForm Label Check: ");
                 foreach (var FormLabelResult in Results.FormLabelResult)
                 {
                     writer.WriteLine(FormLabelResult);
-                }
-                writer.WriteLine("");
-
-                writer.WriteLine("\nLink Title Check: ");
-                foreach (var LinkTitleResult in Results.ContextlessLinkCheckResult)
-                {
-                    writer.WriteLine(LinkTitleResult);
                 }
 
                 writer.WriteLine();

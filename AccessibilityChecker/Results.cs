@@ -23,6 +23,8 @@ namespace AccessibilityChecker
 
         public List<string> ContextlessLinkCheckResult { get; set; }
 
+        public List<string> PageLinks { get; set; }
+
         public List<string> AltTagsFound = new List<string>();
     }
 }

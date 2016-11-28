@@ -34,6 +34,28 @@ namespace AccessibilityChecker
             return results;
         }
 
+        // Returns all links & checks the title attribute.
+        public static List<string> PageLinks(HtmlDocument doc)
+        {
+            var LinkList = doc.DocumentNode.Descendants("a");
+            List<string> links = new List<string>();
+
+            foreach(var Link in LinkList)
+            {
+                string hrefValue = Link.GetAttributeValue("href", string.Empty);
+                string titleValue = Link.GetAttributeValue("title", string.Empty);
+
+                if (titleValue == null || titleValue == "")
+                {
+                    titleValue = "No title text found";
+                }
+
+                links.Add(hrefValue + " *** " + titleValue);
+            }
+
+            return links;
+        }
+
         /*public List<string> TitleCheck(HtmlDocument doc)
         {
             var Passes = 0;
