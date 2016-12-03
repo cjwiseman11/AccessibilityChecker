@@ -57,10 +57,24 @@ namespace AccessibilityChecker
 
         public string HeadingOneCheck(HtmlDocument doc)
         {
-            //Check if Heading1 is first
+            // If there is more than a single H1 element, check to see if the others are semantic.
             if (HeadingOneList.Count > 1)
             {
-                return "Please Fix, There Should be 1 HeadingOne";
+                for (var i = 1; i < HeadingOneList.Count; i++)
+                {   
+                    HtmlNode HeadingOne = doc.DocumentNode.SelectSingleNode(HeadingOneList[i].XPath + "/parent::node()");
+
+                    // This can be expanded to check if 'header' is used in the correct context - i.e inside of an article.
+                    if (HeadingOne.Name.Contains("article") || HeadingOne.Name.Contains("section") || HeadingOne.Name.Contains("header"))
+                    {
+                        Console.WriteLine(HeadingOneList[i].InnerText + " - H1 is semantic.");
+                    }
+                    else
+                    {
+                        Console.WriteLine(HeadingOneList[i].InnerText + " - H1 is not semantic.");
+                    }
+                }
+                return "Multiple H1 elements found & checked for semantics.";
             }
             else
             {
