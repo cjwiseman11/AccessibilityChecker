@@ -25,7 +25,7 @@ namespace AccessibilityChecker
                 writer.WriteLine("\nHeading One Check: ");
                 writer.WriteLine(Results.HeadingResult);
                 writer.WriteLine("");
-
+                writer.WriteLine("\nHeading on the page: ");
                 foreach (var PageHeading in Results.PageHeadings)
                 {
                     writer.WriteLine(PageHeading);
@@ -37,6 +37,12 @@ namespace AccessibilityChecker
                 foreach (var AltTagResult in Results.AltTagsResult)
                 {
                     writer.WriteLine(AltTagResult);
+                }
+                writer.WriteLine("");
+                writer.WriteLine("\nImages on the page: ");
+                foreach (var PageImage in Results.PageImages)
+                {
+                    writer.WriteLine(PageImage);
                 }
                 writer.WriteLine("");
 

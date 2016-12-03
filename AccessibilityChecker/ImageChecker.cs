@@ -42,5 +42,52 @@ namespace AccessibilityChecker
             return results;
         }
         public List<string> AltTagsFoundList = new List<string>();
+
+        public static List<string> PageImages(HtmlDocument doc)
+        {
+
+            var imageNodes = doc.DocumentNode.Descendants("img");
+
+            List<string> images = new List<string>();
+
+            foreach (var imageNode in imageNodes)
+            {
+                string source = "";
+                string alt = "";
+
+                try
+                {
+
+                    alt = imageNode.Attributes["alt"].Value;
+
+                    if (alt == null || alt == "")
+                    {
+                        alt = "No alt text found.";
+                    }
+                }
+                catch
+                {
+                    alt = "No alt attribute found.";
+                }
+
+                try
+                {
+                    source = imageNode.Attributes["src"].Value;
+
+                    if (source == null || source == "")
+                    {
+                        source = "No source found";
+                    }
+
+                }
+                catch
+                {
+                    source = "No src attribute found.";
+                }
+
+                images.Add(source + " *** " + alt);
+            }
+            return images;
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace AccessibilityChecker
 
         public List<string> AltTagsResult { get; set; }
 
+        public List<string> PageImages { get; set; }
+
         public List<string> ColourContrastResult { get; set; }
 
         public List<string> FormLabelResult { get; set; }

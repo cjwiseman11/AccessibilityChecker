@@ -60,6 +60,7 @@ namespace AccessibilityChecker
             ImageChecker ImageChecker = new ImageChecker();
             Results.AltTagsResult = ImageChecker.AltTagsCheck(doc);
             Results.AltTagsFound = ImageChecker.AltTagsFoundList;
+            Results.PageImages = ImageChecker.PageImages(doc);
 
             Console.WriteLine("\n###Running Form Checker");
             FormChecker FormChecker = new FormChecker();
