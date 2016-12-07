@@ -26,35 +26,6 @@ namespace AccessibilityChecker
             }
         }
 
-        public bool HeadingAmount(HtmlDocument doc)
-        {
-            //Check for Headings
-            HtmlNodeCollection HeadingTwoList = doc.DocumentNode.SelectNodes("//h2");
-            HtmlNodeCollection HeadingThreeList = doc.DocumentNode.SelectNodes("//h3");
-            HtmlNodeCollection HeadingFourList = doc.DocumentNode.SelectNodes("//h4");
-            if (HeadingOneList != null)
-            {
-                Console.WriteLine("H1: " + HeadingOneList.Count);
-            } else if(HeadingOneList == null)
-            {
-                Console.WriteLine("No H1 Detected!");
-                return false;
-            }
-            if (HeadingTwoList != null)
-            {
-                Console.WriteLine("H2: " + HeadingTwoList.Count);
-            }
-            if (HeadingThreeList != null)
-            {
-                Console.WriteLine("H3: " + HeadingThreeList.Count);
-            }
-            if (HeadingFourList != null)
-            {
-                Console.WriteLine("H4 " + HeadingFourList.Count);
-            }
-            return true;
-        }
-
         public string HeadingOneCheck(HtmlDocument doc)
         {
             //Check if Heading1 is first
@@ -76,5 +47,63 @@ namespace AccessibilityChecker
                 }
             }
         }
+
+        public static List<string> PageHeadings(HtmlDocument doc)
+        {
+            List<string> allPageHeadings = new List<string>();
+            int h1HeadingCount = 0;
+            int h2HeadingCount = 0;
+            int h3HeadingCount = 0;
+            int h4HeadingCount = 0;
+
+            foreach (var item in GetAllHeadings(doc))
+            {
+                allPageHeadings.Add(item);
+
+                switch (item.Substring(0, 2))
+                {
+                    case "h1":
+                        h1HeadingCount++;
+                        break;
+
+                    case "h2":
+                        h2HeadingCount++;
+                        break;
+
+                    case "h3":
+                        h3HeadingCount++;
+                        break;
+
+                    case "h4":
+                        h4HeadingCount++;
+                        break;
+
+                    default:
+                        break;
+
+                }
+            }
+
+            allPageHeadings.Add("Number of H1 headings: " + h1HeadingCount);
+            allPageHeadings.Add("Number of H2 headings: " + h2HeadingCount);
+            allPageHeadings.Add("Number of H3 headings: " + h3HeadingCount);
+            allPageHeadings.Add("Number of H4 headings: " + h4HeadingCount);
+            allPageHeadings.Add("Total number of headings: " + (h1HeadingCount + h2HeadingCount + h3HeadingCount + h4HeadingCount));
+
+            return allPageHeadings;
+        }
+
+        public static List<string> GetAllHeadings(HtmlDocument html)
+        {
+
+            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5]";
+
+            return html
+                    .DocumentNode
+                    .SelectNodes(xpath)
+                    .Select(node => node.Name + " " + node.InnerText)
+                    .ToList();
+        }
+
     }
 }

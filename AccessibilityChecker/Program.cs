@@ -54,11 +54,13 @@ namespace AccessibilityChecker
                 Results.HeadingResult = HeadingChecker.HeadingOneCheck(doc);
                 Console.WriteLine(Results.HeadingResult);
             }
+            Results.PageHeadings = HeadingChecker.PageHeadings(doc);
 
             Console.WriteLine("\n###Running Image Checker");
             ImageChecker ImageChecker = new ImageChecker();
             Results.AltTagsResult = ImageChecker.AltTagsCheck(doc);
             Results.AltTagsFound = ImageChecker.AltTagsFoundList;
+            Results.PageImages = ImageChecker.PageImages(doc);
 
             Console.WriteLine("\n###Running Form Checker");
             FormChecker FormChecker = new FormChecker();
@@ -70,6 +72,7 @@ namespace AccessibilityChecker
             Console.WriteLine("\n###Running Link Check");
             LinkChecker LinkChecker = new LinkChecker();
             Results.ContextlessLinkCheckResult = LinkChecker.ContextlessLinkCheck(doc);
+            Results.PageLinks = LinkChecker.PageLinks(doc);
 
             Reporter reporter = new Reporter();
             reporter.WriteToTextFile(Results);
